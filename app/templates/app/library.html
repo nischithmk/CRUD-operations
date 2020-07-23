@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>volsko project</title>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body >
+<nav class="navbar navbar-light" style="background-color:#222222;">
+    {% if user.is_authenticated %}
+                    {% if user.is_teacher %}
+    <a class="navbar-link btn-lg" href="{% url 'books' %}" style="background-color:#fff;color:#000000;">Book list</a>
+    <a href="{% url 'upload-book' %}" class="navbar-link btn-lg" style="background-color:#fff;color:#000000;">Add new Book</a>
+    <h5 style="color:#fff;">logged in as Teacher:-<strong>{{ user.username }}</strong><a class="btn btn-danger" href="{% url 'logout' %}">Log out</a></h5>
+    {% else %}
+    <h5 style="color:#fff;">logged in as Student:-<strong>{{ user.username }}</strong><a class="btn btn-danger" href="{% url 'logout' %}">Log out</a></h5>
+      {% endif %}
+                  {% endif %}
+</nav>
+<br>
+{% block content %}
+<div class="card-columns">
+    {% for book in shelf %}
+        <div class="card" style="width: 18rem; margin-left:45px;">
+        <img class="card-img-top" src="{{ book.picture.url }}" width="250" height="200">
+              <div class="card-body">
+                <h5 class="card-title">{{ book.name }}</h5>
+                  <p class="card-text">{{ book.describe }}</p>
+                  <div class="card-footer bg-transparent border-dark">
+   <p class="card-title">{{book.author}}</p>
+                      {% if user.is_authenticated %}
+                    {% if user.is_teacher %}
+        <center>
+       <a href="update/{{book.id}}" class="btn btn-warning" id = '{{book.id}}'>edit</a>
+       <a href="delete/{{book.id}}" class="btn btn-danger" id = '{{book.id}}'>delete</a>
+    </center>
+{% endif %}
+                  {% endif %}
+
+                       </div>
+  </div>
+</div>
+
+    {% endfor %}
+    </div>
+{% endblock %}
+</body>
+</html>
