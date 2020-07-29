@@ -4,4 +4,4 @@
 
 * user can perform CRUD operation
 
-* A simple book shop wher you can perform CRUD operation
+* A simple book shop where you can perform CRUD operation
